@@ -5,106 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scientific Calculator</title>
     <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-        .container {
-          width: 100%;
-          height: 100vh;
-          background: #e3f9ff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+      @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .calculator {
+        background: rgba(58, 68, 82, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 340px;
+      }
+      .calculator form input {
+        border: 0;
+        outline: 0;
+        width: 70px;
+        height: 40px;
+        border-radius: 12px;
+        box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+          5px 5px 15px rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+        color: white;
+        cursor: pointer;
+        margin: 8px;
+        transition: all 0.2s ease;
+      }
+      .calculator form input:hover {
+        transform: scale(1.05);
+        box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.1),
+          5px 5px 15px rgba(0, 0, 0, 0.4);
+      }
+      .calculator form input:active {
+        transform: scale(0.95);
+      }
+      form .display {
+        display: flex;
+        justify-content: flex-end;
+        margin: 15px 0 25px 0;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+                  inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+      }
+      form .display input {
+        text-align: right;
+        flex: 1;
+        font-size: 48px;
+        box-shadow: none;
+        background: transparent;
+        padding: 0 10px;
+      }
+      form input.equal {
+        width: 156px;
+        background: #ff9500;
+        color: white;
+      }
+      form input.equal:hover {
+        background: #ffaa33;
+      }
+      form input.operator {
+        color: #ff9500;
+      }
+      form input.operator:hover {
+        background: rgba(255, 149, 0, 0.1);
+      }
+      .button-row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .calculator-title {
+        color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+      @media (max-width: 480px) {
         .calculator {
-          background: #3a4452;
-          padding: 20px;
-          border-radius: 10px;
-          text-align: center;
+          padding: 15px;
         }
         .calculator form input {
-          border: 0;
-          outline: 0;
           width: 60px;
           height: 60px;
-          border-radius: 10px;
-          box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1),
-            5px 5px 15px rgba(0, 0, 0, 0.2);
-          background: transparent;
-          font-size: 20px;
-          color: white;
-          cursor: pointer;
-          margin: 10px;
-        }
-        form .display {
-          display: flex;
-          justify-content: flex-end;
-          margin: 20px 0;
-        }
-        form .display input {
-          text-align: right;
-          flex: 1;
-          font-size: 45px;
-          box-shadow: none;
+          margin: 6px;
+          font-size: 18px;
         }
         form input.equal {
-          width: 145px;
-          background: #fda500;
+          width: 132px;
         }
-        form input.operator {
-          color: #ffe600;
+        form .display input {
+          font-size: 36px;
         }
-    </style>
+      }
+  </style>
   </head>
   <body>
     <div class="container">
       <div class="calculator">
+        <div class="calculator-title">Scientific Calculator</div>
         <form name="calcForm">
           <div class="display">
             <input type="text" name="display" id="display" readonly />
           </div>
-          <div>
+          <div class="button-row">
             <input type="button" value="AC" onclick="clearDisplay()" class="operator" />
             <input type="button" value="DE" onclick="deleteLast()" class="operator" />
-            <input type="button" value="." onclick="appendValue('.')" class="operator" />
+            <input type="button" value="π" onclick="appendValue(Math.PI.toFixed(6))" class="operator" />
             <input type="button" value="/" onclick="appendValue('/')" class="operator" />
           </div>
-          <div>
-            <input type="button" value="7" onclick="appendValue('7')" />
-            <input type="button" value="8" onclick="appendValue('8')" />
-            <input type="button" value="9" onclick="appendValue('9')" />
-            <input type="button" value="*" onclick="appendValue('*')" class="operator" />
-          </div>
-          <div>
-            <input type="button" value="4" onclick="appendValue('4')" />
-            <input type="button" value="5" onclick="appendValue('5')" />
-            <input type="button" value="6" onclick="appendValue('6')" />
-            <input type="button" value="-" onclick="appendValue('-')" class="operator" />
-          </div>
-          <div>
-            <input type="button" value="1" onclick="appendValue('1')" />
-            <input type="button" value="2" onclick="appendValue('2')" />
-            <input type="button" value="3" onclick="appendValue('3')" />
-            <input type="button" value="+" onclick="appendValue('+')" class="operator" />
-          </div>
-          <div>
-            <input type="button" value="00" onclick="appendValue('00')" />
-            <input type="button" value="0" onclick="appendValue('0')" />
-            <input type="button" value="=" class="equal" onclick="calculate()" />
-          </div>
-          <div>
+          <div class="button-row">
             <input type="button" value="sin" onclick="calculateTrig('sin')" class="operator" />
             <input type="button" value="cos" onclick="calculateTrig('cos')" class="operator" />
             <input type="button" value="tan" onclick="calculateTrig('tan')" class="operator" />
+            <input type="button" value="*" onclick="appendValue('*')" class="operator" />
+          </div>
+          <div class="button-row">
+            <input type="button" value="7" onclick="appendValue('7')" />
+            <input type="button" value="8" onclick="appendValue('8')" />
+            <input type="button" value="9" onclick="appendValue('9')" />
+            <input type="button" value="-" onclick="appendValue('-')" class="operator" />
+          </div>
+          <div class="button-row">
+            <input type="button" value="4" onclick="appendValue('4')" />
+            <input type="button" value="5" onclick="appendValue('5')" />
+            <input type="button" value="6" onclick="appendValue('6')" />
+            <input type="button" value="+" onclick="appendValue('+')" class="operator" />
+          </div>
+          <div class="button-row">
+            <input type="button" value="1" onclick="appendValue('1')" />
+            <input type="button" value="2" onclick="appendValue('2')" />
+            <input type="button" value="3" onclick="appendValue('3')" />
+            <input type="button" value="^" onclick="appendValue('**')" class="operator" />
+          </div>
+          <div class="button-row">
+            <input type="button" value="00" onclick="appendValue('00')" />
+            <input type="button" value="0" onclick="appendValue('0')" />
+            <input type="button" value="." onclick="appendValue('.')" />
             <input type="button" value="√" onclick="calculateSqrt()" class="operator" />
           </div>
-          <div>
-            <input type="button" value="^" onclick="appendValue('**')" class="operator"  />
+          <div class="button-row">
             <input type="button" value="ln" onclick="calculateLn()" class="operator" />
             <input type="button" value="log" onclick="calculateLog()" class="operator" />
-            <input type="button" value="π" onclick="appendValue(Math.PI.toFixed(6))" class="operator" />
+            <input type="button" value="=" class="equal" onclick="calculate()" />
           </div>
         </form>
       </div>
